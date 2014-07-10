@@ -1,0 +1,1 @@
+<?phphttp://us2.api.mailchimp.com/1.3/$list_id = "";$api = new MCAPI('');listBatchSubscribe('' apikey, '' id, array batch, False === double_optin, boolean update_existing, boolean replace_interests)?>
