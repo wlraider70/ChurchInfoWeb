@@ -1,3 +1,34 @@
+<head> 
+
+            <script type="text/javascript" src="jquery/js/jquery-1.4.2.min.js"></script> 
+            <script type="text/javascript" src="jquery/js/jquery-ui-1.8.2.custom.min.js"></script> 
+            <script type="text/javascript"> 
+
+                jQuery(document).ready(function(){
+                    $('#adult').autocomplete({source:'suggestname.php', minLength:2});
+                    //$.noConflict()
+                });
+				
+				jQuery(document).ready(function(){
+							$('#child').autocomplete({source:'suggestname.php', minLength:2});
+						//	$.noConflict()
+						});
+				
+            </script> 
+			<script type="text/javascript"> 
+				 
+						
+				 
+			</script> 
+            <link rel="stylesheet" href="jquery/css/smoothness/jquery-ui-1.8.2.custom.css" /> 
+            <style type="text/css"><!--
+
+            /* style the auto-complete response */
+            li.ui-menu-item { font-size:12px !important; }
+
+                --></style> 
+</head> 
+
 <?php
 /*******************************************************************************
  *
@@ -5,18 +36,18 @@
  *  last change : 2007-xx-x
  *  description : Quickly add attendees to an event
  *
- *  http://www.churchdb.org/
+ *  http://www.infocentral.org/
  *  Copyright 2001-2003 Phillip Hullquist, Deane Barker, Chris Gebhardt
  *  Copyright 2005 Todd Pillars
- *  Copyright 2012 Michael Wilt
  *
- *  ChurchInfo is free software; you can redistribute it and/or modify
+ *  InfoCentral is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
  ******************************************************************************/
 
+	
 // Include the function library
 require "Include/Config.php";
 require "Include/Functions.php";
@@ -24,22 +55,11 @@ require "Include/Header.php";
 
 $sPageTitle = gettext("Event Checkin");
 
-$sAction = "";
-$EventID = 0;
-$EvtName = "";
-$EvtDesc = "";
-$EvtDate = "";
-
-if (array_key_exists ('Action', $_POST))
-	$sAction = $_POST['Action'];
-if (array_key_exists ('EventID', $_POST))
-	$EventID = $_POST['EventID']; // from ListEvents button=Attendees
-if (array_key_exists ('EName', $_POST))
-	$EvtName = $_POST['EName'];
-if (array_key_exists ('EDesc', $_POST))
-	$EvtDesc = $_POST['EDesc'];
-if (array_key_exists ('EDate', $_POST))
-	$EvtDate = $_POST['EDate'];
+$sAction = $_POST['Action'];
+$EventID = $_POST['EventID']; // from ListEvents button=Attendees
+$EvtName = $_POST['EName'];
+$EvtDesc = $_POST['EDesc'];
+$EvtDate = $_POST['EDate'];
 
 //
 // process the action inputs
@@ -114,9 +134,12 @@ if (isset($_POST["Submit"]) && isset($_POST['EventID']) || isset($_POST['Cancel'
 		</td>
 		</tr>
 		<tr>
-		<!-- Right Side -->
+		<!-- Right Side new searchbox here-->
 			<td width="33%" valign="top" align="right">
-			<span class="SmallText"><input type="textbox" class="textbox" name="child">
+ 
+			Enter a name:
+			<input id="child" type="text" name="child" /> 
+				
 			</td>
 		<!-- Middle -->
 		  <td width="33%" valign="top" align="center">
@@ -125,17 +148,24 @@ if (isset($_POST["Submit"]) && isset($_POST['EventID']) || isset($_POST['Cancel'
 				<input type="button" class="icButton" <?php echo 'value="' . gettext("Add Visitor") . '"'; ?> name="Add" onClick="javascript:document.location='PersonEditor.php';"></td>
 		<!-- Left Side -->
 			<td width="33%" valign="top" align="left">
-				<span class="SmallText"><input type="textbox" class="textbox" name="adult">
+						 
+				<body> 
+				 
+					Enter a name:
+					<input id="adult" type="text" name="adult" /> 
+								 
+				</body>
+		
 			</td>
 		</tr>
 		<tr>
 			<td width="33%" align="right">
-			Child's Number
+			Child's Name
 			</td>
 			<td width="33%" valign="top" align="center">
 			</td>
 			<td width="33%" valign="top" align="left">
-			Adult Number(Optional)
+			Adult's Name
 			</td>
 		</tr>
 		</table>
@@ -145,7 +175,7 @@ if (isset($_POST["Submit"]) && isset($_POST['EventID']) || isset($_POST['Cancel'
 //End Entry
 
 //Verify Section - get the picture and name of both people.  Display Add or Cancel (back to add people)"
-if (isset($_POST["EventID"]) && isset($_POST['Verify']) && isset($_POST['child']) ){
+if (isset($_POST["EventID"]) && isset($_POST['Verify'])  && isset($_POST['child']) ){
 	$iEventID = FilterInput($_POST["EventID"],'int');
 	$iChildID = FilterInput($_POST["child"],'int');
 	$iAdultID = FilterInput($_POST["adult"],'int');
@@ -187,7 +217,7 @@ if (isset($_POST["EventID"]) && isset($_POST['Verify']) && isset($_POST['child']
 			</table>
 		<!-- right - 25% -->
 			<td width="25%" valign="top" align="center">
-			<div class="LightShadedBox">
+			<div class="LightShadedBox2">
 			<?php
 				if ( $iAdultID <> null ) {
 					loadperson($iAdultID); 
@@ -218,7 +248,7 @@ if (isset($_POST["EventID"]) && isset($_POST['child']) && (isset($_POST['CheckIn
 			$fields = "(event_id, person_id, checkin_date)";
 		   $values =  "'".$iEventID."', '".$iChildID."', NOW() ";
 	   }
-        $sSQL = "INSERT IGNORE INTO event_attend $fields VALUES ( $values ) ;";
+        $sSQL = "INSERT INTO event_attend $fields VALUES ( $values ) ;";
         RunQuery($sSQL);
 	}
 	if (isset($_POST['VerifyCheckOut']) ){
@@ -293,7 +323,7 @@ if (isset($_POST["EventID"]) && isset($_POST['Action']) && isset($_POST['child']
 			<td width="25%" valign="Bottom" align="center">
 				<table>
 					<tr>
-						<div class="LightShadedBox">
+						<div class="LightShadedBox2">
 							<td width="33%" valign="top" align="left">
 								<span class="SmallText"><input type="textbox" class="textbox" name="adult">
 							</td>
@@ -345,7 +375,7 @@ if (isset($_POST["EventID"]) && isset($_POST['Action']) && isset($_POST['child']
 				</table>
 			<!-- right - 25% -->
 			<td width="25%" valign="top" align="center">
-				<div class="LightShadedBox">
+				<div class="LightShadedBox2">
 				<?php
 					loadperson($iAdultID);
 				?>
@@ -386,42 +416,29 @@ if (isset ($_POST["EventID"]) ) {
 	//Get Person who is checked in
 		$sSQL = "SELECT * FROM person_per WHERE per_ID = $person_id ";
 		$perOpps = RunQuery($sSQL);
-		if (mysql_num_rows ($perOpps) > 0) {
-			$perRow = mysql_fetch_array($perOpps, MYSQL_BOTH);
-			extract($perRow);  
-			$sPerson = FormatFullName($per_Title,$per_FirstName,$per_MiddleName,$per_LastName,$per_Suffix,3);
-		} else {
-			$sPerson = "";
-		}
+		$perRow = mysql_fetch_array($perOpps, MYSQL_BOTH);
+		extract($perRow);  
+		$sPerson = FormatFullName($per_Title,$per_FirstName,$per_MiddleName,$per_LastName,$per_Suffix,3);
 		$per_Title='';$per_FirstName='';$per_MiddleName='';$per_LastName='';$per_Suffix='';
-		
+
 	//Get Person who checked person in	
-		if ($checkin_id > 0) {
-			$sSQL = "SELECT * FROM person_per WHERE per_ID = $checkin_id";
-			$perCheckin = RunQuery($sSQL);
-			if (mysql_num_rows ($perCheckin) > 0) {
-				$perCheckinRow = mysql_fetch_array($perCheckin, MYSQL_BOTH);
-				extract($perCheckinRow);
-				$sCheckinby = FormatFullName($per_Title,$per_FirstName,$per_MiddleName,$per_LastName,$per_Suffix,3);
-			} else
-				$sCheckinby = "";
-		} else {
-			$sCheckinby = "";
+		if ($checkin_id <> null){
+		$sSQL = "SELECT * FROM person_per WHERE per_ID = $checkin_id";
+		$perCheckin = RunQuery($sSQL);
+		$perCheckinRow = mysql_fetch_array($perCheckin, MYSQL_BOTH);
+		extract($perCheckinRow);  
+		$sCheckinby = FormatFullName($per_Title,$per_FirstName,$per_MiddleName,$per_LastName,$per_Suffix,3);
 		}
 		$per_Title='';$per_FirstName='';$per_MiddleName='';$per_LastName='';$per_Suffix='';
 
 	//Get Person who checked person out	
-		if ($checkout_id > 0) {
-			$sSQL = "SELECT * FROM person_per WHERE per_ID = $checkout_id";
-			$perCheckout = RunQuery($sSQL);
-
-			if (mysql_num_rows ($perCheckout) > 0) {
-				$perCheckoutRow = mysql_fetch_array($perCheckout, MYSQL_BOTH);
-				extract($perCheckoutRow);  
-				$sCheckoutby = FormatFullName($per_Title,$per_FirstName,$per_MiddleName,$per_LastName,$per_Suffix,3);
-			} else
-				$sCheckoutby = '';
-		} else {
+		if ($checkout_id > 1) {
+		$sSQL = "SELECT * FROM person_per WHERE per_ID = $checkout_id";
+		$perCheckout = RunQuery($sSQL);
+		$perCheckoutRow = mysql_fetch_array($perCheckout, MYSQL_BOTH);
+		extract($perCheckoutRow);  
+		$sCheckoutby = FormatFullName($per_Title,$per_FirstName,$per_MiddleName,$per_LastName,$per_Suffix,3);
+		}else{
 			$sCheckoutby = '';
 		}
 		$per_Title='';$per_FirstName='';$per_MiddleName='';$per_LastName='';$per_Suffix='';
@@ -457,11 +474,6 @@ if (isset ($_POST["EventID"]) ) {
 <?php require "Include/Footer.php"; 
 
 function loadperson($iPersonID){
-	global $bDefectiveBrowser;
-	
-	if ($iPersonID == 0)
-		return;
-	
 	$sSQL = "SELECT a.*, family_fam.*, cls.lst_OptionName AS sClassName, fmr.lst_OptionName AS sFamRole, b.per_FirstName AS EnteredFirstName,
 					b.Per_LastName AS EnteredLastName, c.per_FirstName AS EditedFirstName, c.per_LastName AS EditedLastName
 				FROM person_per a
@@ -472,9 +484,6 @@ function loadperson($iPersonID){
 				LEFT JOIN person_per c ON a.per_EditedBy = c.per_ID
 				WHERE a.per_ID = " . $iPersonID;
 	$rsPerson = RunQuery($sSQL);
-	if ((! $rsPerson) || mysql_num_rows ($rsPerson) == 0)
-		return;
-
 	extract(mysql_fetch_array($rsPerson));
 
 	// Get the lists of custom person fields
@@ -504,13 +513,7 @@ function loadperson($iPersonID){
 
 	$rsNotes = RunQuery($sSQL);
 
-        SelectWhichAddress($sAddress1, $sAddress2, $per_Address1, $per_Address2, $fam_Address1, $fam_Address2, false);
-        $sAddress2 = SelectWhichInfo($per_Address2, $fam_Address2, false);
-        $sCity = SelectWhichInfo($per_City, $fam_City, false);
-        $sState = SelectWhichInfo($per_State, $fam_State, false);
-        $sZip = SelectWhichInfo($per_Zip, $fam_Zip, false);
-        $sCountry = SelectWhichInfo($per_Country, $fam_Country, false);
-        
+
 		echo "<font size=\"4\"><b>";
 		echo FormatFullName($per_Title, $per_FirstName, $per_MiddleName, $per_LastName, $per_Suffix, 0);
 		echo "</font></b><br>";
