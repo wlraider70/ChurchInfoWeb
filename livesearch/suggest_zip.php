@@ -3,7 +3,7 @@
 if ( !isset($_REQUEST['term']) )
     exit;
 
-$dblink = mysql_connect('localhost', 'root', 'clc2net!') or die( mysql_error() );
+$dblink = mysql_connect('localhost', '', '') or die( mysql_error() );
 mysql_select_db('cla-constituents');
 
 $rs = mysql_query('select per_FirstName, per_LastName, per_ID from person_per where per_FirstName or per_LastName like "'. mysql_real_escape_string($_REQUEST['term']) .'%" order by per_FirstName asc limit 0,10', $dblink);
