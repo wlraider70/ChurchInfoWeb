@@ -9,9 +9,9 @@
 
 // Database connection constants
 $sSERVERNAME = 'localhost';
-$sUSER = 'churchinfo';
-$sPASSWORD = 'churchinfo';
-$sDATABASE = 'churchinfo';
+$sUSER = 'root';
+$sPASSWORD = 'clc2net!';
+$sDATABASE = 'cla-constituents';
 
 // Root path of your ChurchInfo installation ( THIS MUST BE SET CORRECTLY! )
 // For example, if you will be accessing from http://www.yourdomain.com/web/churchinfo
@@ -29,7 +29,7 @@ $bLockURL = FALSE;
 // log in.  These are case sensitive.  Only used when $bLockURL = TRUE
 $URL[0] = 'https://mychurch.org/churchinfo/Default.php';
 // List as many other URL's as may be needed. Number them sequentially.
-//$URL[1] = 'http://localhost/churchinfo/Default.php';
+$URL[1] = 'http://localhost/churchinfo/Default.php';
 //$URL[2] = 'http://localhost:8080/churchinfo/Default.php';
 //$URL[3] = 'http://127.0.0.1/churchinfo/Default.php';
 //$URL[4] = 'https://www.mychurch.org/churchinfo/Default.php';
