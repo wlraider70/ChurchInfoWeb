@@ -1,11 +1,11 @@
 <?php
 
 /*Define constant to connect to database */
-DEFINE('DATABASE_USER', 'root');
-DEFINE('DATABASE_PASSWORD', 'clc2net!');
+DEFINE('DATABASE_USER', '');
+DEFINE('DATABASE_PASSWORD', '');
 DEFINE('DATABASE_HOST', 'localhost');
 //DEFINE('DATABASE_NAME', 'programming');
-DEFINE('DATABASE_NAME', 'cla-constituents');
+DEFINE('DATABASE_NAME', '');
 
 
 
