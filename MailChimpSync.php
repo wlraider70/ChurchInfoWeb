@@ -1,9 +1,9 @@
 <?php
-//mysq
 
+Include /Include/Config.php
 
-mysql_connect('localhost', '<sql user>', '<sql PW>') or die( mysql_error() );
-mysql_select_db('<your DB>');
+//mysql_connect('localhost', '<sql user>', '<sql PW>') or die( mysql_error() );
+//mysql_select_db('<your DB>');
 
 $sql = "SELECT per_Email, per_FirstName, per_LastName FROM person_per WHERE per_friendDate > DATE_SUB(NOW(), INTERVAL 1 DAY)";
 
